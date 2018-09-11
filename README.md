@@ -5,7 +5,7 @@ Macros directly in ClojureScript
 
 # Usage
 
-You can use the macros in this library to define macros directly in ClojureScript source. 
+You can use this library to define macros directly in ClojureScript source. 
 Or even directly in the REPL:
 
 ```
