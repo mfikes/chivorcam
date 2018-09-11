@@ -44,3 +44,4 @@ Because of this, this makes it easy to mess with macros directly in the REPL. Th
 
 1. It doesn't provide a way to work properly across namespaces. For real production code involving macros it is better to use ClojureScript's support for macros which is really designed to support [Namespaces](https://clojurescript.org/guides/ns-forms).
 2. The `defmacfn` macro is non-standard (compared to just using `defn`), along with the concept of placing macros via `defmacro` directly in your ClojureScript source. Making use of this will hinder the ability of others to readily understand your code.
+3. Even though this library works with self-hosted ClojureScript, if your macros need to perform host interop, that would be difficult to manage using reader conditionals because the `:cljs` branch would always be taken.
