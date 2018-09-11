@@ -5,6 +5,9 @@ Macros directly in ClojureScript
 
 # Usage
 
+You can use the macros in this library to define macros directly in ClojureScript source. 
+Or even directly in the REPL:
+
 ```
 cljs.user=> (require-macros '[chivorcam.core :refer [defmacro defmacfn]])
 nil
