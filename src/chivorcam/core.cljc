@@ -19,17 +19,25 @@
   (symbol (str "#'" ns) (str sym)))
 
 (defn- macros-ns [sym]
-  #?(:clj sym
+  #?(:clj  sym
      :cljs (symbol (str sym "$macros"))))
 
 (clojure.core/defmacro defmacfn
   [name & args]
-  (eval-form (list* 'clojure.core/defn name args) (macros-ns *cljs-ns*))
-  `'~(fake-var *cljs-ns* name))
+  (let [form `(clojure.core/defn ~name ~@args)]
+    (if &env
+      (do
+        (eval-form form (macros-ns *cljs-ns*))
+        `'~(fake-var *cljs-ns* name))
+      form)))
 
 (clojure.core/defmacro defmacro
   [name & args]
-  (eval-form (list* 'clojure.core/defmacro name args) (macros-ns *cljs-ns*))
-  (swap! env/*compiler* update-in [::ana/namespaces *cljs-ns* :require-macros] assoc *cljs-ns* *cljs-ns*)
-  (swap! env/*compiler* update-in [::ana/namespaces *cljs-ns* :use-macros] assoc name *cljs-ns*)
-  `'~(fake-var *cljs-ns* name))
+  (let [form `(clojure.core/defmacro ~name ~@args)]
+    (if &env
+      (do
+        (eval-form form (macros-ns *cljs-ns*))
+        (swap! env/*compiler* update-in [::ana/namespaces *cljs-ns* :require-macros] assoc *cljs-ns* *cljs-ns*)
+        (swap! env/*compiler* update-in [::ana/namespaces *cljs-ns* :use-macros] assoc name *cljs-ns*)
+        `'~(fake-var *cljs-ns* name))
+      form)))
