@@ -11,9 +11,11 @@
        :cljs (eval `(~'ns ~ns))))
   (binding #?(:clj  [*ns* (the-ns ns)]
               :cljs [*ns* (find-ns ns)])
-    (eval `(do
-             (clojure.core/refer-clojure)
-             ~form))))
+    (#?(:clj do :cljs try)
+      (eval `(do
+               (clojure.core/refer-clojure)
+               ~form))
+      #?(:cljs (catch :default e (throw (ex-cause e)))))))
 
 (defn- fake-var [ns sym]
   (symbol (str "#'" ns) (str sym)))
