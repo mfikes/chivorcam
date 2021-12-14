@@ -22,6 +22,8 @@ cljs.user=> (add 1 2)
 
 This library works with both JVM and self-hosted ClojureScript, as well as Clojure.
 
+[Live demo](http://app.klipse.tech/?eval_only=1&cljs_in=(require%20%27%5Bchivorcam.core%20%3Arefer%20%5Bdefmacro%20defmacfn%5D%5D)%0A%0A(defmacro%20add%20%5Ba%20b%5D%0A%20%20%20%20%60(%2B%20~a%20~b))%0A%0A(add%201%202)).
+
 ## Helper Functions
 
 What if your macro needs to call a helper function upon macro expansion? 
